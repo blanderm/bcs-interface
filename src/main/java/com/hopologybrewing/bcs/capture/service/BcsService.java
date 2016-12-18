@@ -22,8 +22,6 @@ public abstract class BcsService {
     private static final Logger log = LoggerFactory.getLogger(BcsService.class);
     private static Map<Type, String> urlMap = null;
     private static Map<Type, Class> classMap = null;
-    private String bcsControllerExternalIp;
-    private String bcsControllerInternalIp;
 
     static {
         Map<Type, String> url = new HashMap<>();
@@ -51,30 +49,14 @@ public abstract class BcsService {
 
         try {
             RestTemplate template = new BasicAuthRestTemplate();
-            String ip = null;
-            String ipType = System.getProperty(BcsConstants.BCS_IP);
-
-            if (ipType == null || BcsConstants.BCS_IP_EXT.equalsIgnoreCase(ipType)) {
-                ip = bcsControllerExternalIp;
-            } else {
-                ip = bcsControllerInternalIp;
-            }
-
-            response = template.getForEntity("http://" + ip + String.format(urlMap.get(type), ids), classMap.get(type));
+            String bcsIp = System.getProperty(BcsConstants.BCS_IP);
+            response = template.getForEntity("http://" + bcsIp + String.format(urlMap.get(type), ids), classMap.get(type));
             obj = response.getBody();
         } catch (Throwable t) {
             log.error("Error getting data - ", t);
         }
 
         return obj;
-    }
-
-    public void setBcsControllerExternalIp(String bcsControllerExternalIp) {
-        this.bcsControllerExternalIp = bcsControllerExternalIp;
-    }
-
-    public void setBcsControllerInternalIp(String bcsControllerInternalIp) {
-        this.bcsControllerInternalIp = bcsControllerInternalIp;
     }
 
     public enum Type {TEMP, PROCESS, STATE, TIMER, OUTPUT, OUTPUTS}
