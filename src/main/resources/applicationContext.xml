@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:file="http://www.springframework.org/schema/integration/file"
+       xmlns:feed="http://www.springframework.org/schema/integration/feed"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/integration/feed http://www.springframework.org/schema/integration/feed/spring-integration-feed.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    <!-- Add bean definitions -->
+    <bean id="tempService" class="com.hopologybrewing.bcs.capture.service.TemperatureService">
+        <property name="bcsControllerExternalIp" value="${bcs.controller.ext.ip}"/>
+        <property name="bcsControllerInternalIp" value="${bcs.controller.int.ip}"/>
+        <property name="fileLocation" value="${temps.file}"/>
+    </bean>
+    <bean id="outputService" class="com.hopologybrewing.bcs.capture.service.OutputService">
+        <property name="bcsControllerExternalIp" value="${bcs.controller.ext.ip}"/>
+        <property name="bcsControllerInternalIp" value="${bcs.controller.int.ip}"/>
+    </bean>
+
+    <bean id="tempMessageRecorder" class="com.hopologybrewing.bcs.capture.batch.TemperatureProbeMessageRecorder"/>
+
+    <int:inbound-channel-adapter id="temps" ref="tempMessageRecorder" method="getNextTemperatureReading" auto-startup="true" >
+        <int:poller fixed-rate="300000" max-messages-per-poll="1"/>
+    </int:inbound-channel-adapter>
+
+    <int:service-activator input-channel="temps" ref="tempMessageRecorder"
+                           method="recordMessage"/>
+
+    <!--<file:outbound-channel-adapter id="file" channel="temps"-->
+                                   <!--mode="APPEND"-->
+                                   <!--charset="UTF-8"-->
+                                   <!--directory="/Users/ddcbryanl/tmp" append-new-line="true"-->
+                                   <!--filename-generator-expression="'${temps.file.name:BcsTemperatures.json}'"/>-->
+</beans>
