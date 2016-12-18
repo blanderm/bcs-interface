@@ -23,15 +23,13 @@ public class TemperatureService extends BcsService {
     private static final Logger log = LoggerFactory.getLogger(TemperatureService.class);
     private String fileLocation;
 
-    public String getHistoricalProbeData() {
+    public Map<String, List<List>> getHistoricalProbeData() {
         String line;
         List data = null;
         BufferedReader reader = null;
         List<List> recordings = null;
         ObjectMapper mapper = new ObjectMapper();
-        StringBuffer buffer = new StringBuffer();
         Map<String, List<List>> probesMap = new HashMap<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
         try {
             TemperatureProbeRecording probeRecording = null;
@@ -47,7 +45,6 @@ public class TemperatureService extends BcsService {
                     }
 
                     data = new ArrayList<>();
-//                    data.add(sdf.format(probeRecording.getTimestamp()));
                     data.add(probeRecording.getTimestamp());
                     data.add(new Double(probeRecording.getProbe().getTemp())/10);
 
@@ -69,25 +66,9 @@ public class TemperatureService extends BcsService {
             }
         }
 
-        try {
-            buffer.append("[");
-            String name;
-            for(Iterator<String> it = probesMap.keySet().iterator(); it.hasNext();) {
-                name = it.next();
-                buffer.append("{\"name\": \"").append(name).append("\", \"data\":")
-                        .append(mapper.writeValueAsString(probesMap.get(name))).append("}");
 
-                if (it.hasNext()){
-                    buffer.append(",");
-                }
-            }
 
-            buffer.append("]");
-        } catch (JsonProcessingException e) {
-            log.error("Failed to convert the result to json - ", e);
-        }
-
-        return buffer.toString();
+        return probesMap;
     }
 
     public List<TemperatureProbe> getEnabledProbes() {

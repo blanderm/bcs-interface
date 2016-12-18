@@ -1,5 +1,7 @@
 package com.hopologybrewing.bcs.capture.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hopologybrewing.bcs.capture.model.TemperatureProbe;
 import com.hopologybrewing.bcs.capture.service.TemperatureService;
 import org.slf4j.Logger;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class TemperatureController {
@@ -34,7 +38,29 @@ public class TemperatureController {
 
     @RequestMapping("/temp/history")
     public HttpEntity<String> getHistoricalTemps() {
-        return new HttpEntity<String>(tempService.getHistoricalProbeData());
+        StringBuffer buffer = new StringBuffer();
+        Map<String, List<List>> probesMap = tempService.getHistoricalProbeData();
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            buffer.append("[");
+            String name;
+            for(Iterator<String> it = probesMap.keySet().iterator(); it.hasNext();) {
+                name = it.next();
+                buffer.append("{\"name\": \"").append(name).append("\", \"data\":")
+                        .append(mapper.writeValueAsString(probesMap.get(name))).append("}");
+
+                if (it.hasNext()){
+                    buffer.append(",");
+                }
+            }
+
+            buffer.append("]");
+        } catch (JsonProcessingException e) {
+            log.error("Failed to convert the result to json - ", e);
+        }
+
+        return new HttpEntity<String>(buffer.toString());
     }
 
     @Autowired

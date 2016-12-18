@@ -8,40 +8,35 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
         <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
         <script src="http://code.highcharts.com/stock/highstock.js"></script>
-        <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/highcharts-more.js"></script>
         <script src="https://code.highcharts.com/modules/data.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-
-        <!-- Additional files for the Highslide popup effect -->
-        <script src="https://www.highcharts.com/samples/static/highslide-full.min.js"></script>
-        <script src="https://www.highcharts.com/samples/static/highslide.config.js" charset="utf-8"></script>
-        <link rel="stylesheet" type="text/css" href="https://www.highcharts.com/samples/static/highslide.css"/>
-        <link rel="stylesheet" type="text/css" href="app.css"/>
-
         <script src="app.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="app.css"/>
     </head>
 
     <body ng-app="hopologybrewing-bcs">
         <div>
-            <div ng-controller="outputController">
-                <div ng-repeat="output in outputs" class="panel panel-default" style="float: left">
-                    <div class="panel-body">
-                        <span ng-controller="chartController" id="{{'temp-gauge' + $index}}" style="width: 250px; height: 300px"></span>
-                        <button id="{{'output' + $index}}" data-ng-class="[output.on ? 'btn-on' : 'btn-off']" ng-bind="output.name"/>
+            <div ng-controller="outputController" class="panel panel-default">
+                <div class="panel-body">
+                    <div id="temp-gauge0" class="gauge"></div>
+                    <div id="temp-gauge1" class="gauge"></div>
+                    <div class="panel panel-default clear">
+                        <div class="panel-body">
+                            <div ng-repeat="output in outputs">
+                                <button id="{{'output' + $index}}" data-ng-class="[output.on ? 'btn-on' : 'btn-off']" ng-bind="output.name" style="float: left"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div id="temp-history" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            <div ng-controller="chartController" id="temp-history" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
         </div>
     </body>
 </html>
