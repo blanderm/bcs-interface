@@ -9,11 +9,71 @@ angular.module('hopologybrewing-bcs', [])
     })
 
     .controller('chartController', function ($scope, $http) {
-        console.log('chartController');
+        console.log("ChartController");
+        $http.get('/temp/history').
+            then(function (response) {
+                Highcharts.chart('temp-history', {
+                    chart: {
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: 'Temperature History'
+                    },
+                    tooltip: {
+                        shared: true,
+                        crosshairs: true
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        //                        tickInterval: 7 * 24 * 3600 * 1000, // 24 hours
+                        //                        tickWidth: 0,
+                        //                        gridLineWidth: 1,
+                        labels: {
+                            //format: '{value:%mm/%dd/%yyyy HH:mm:ss}',
+                            align: 'right',
+                            rotation: -30
+                        }
+                    },
+                    yAxis: {
+                        softMin: 60,
+                        softMax: 78,
+                        startOnTick: false,
+                        plotBands: [{
+                            from: 65,
+                            to: 70,
+                            color: 'rgba(68, 170, 213, 0.1)',
+                            label: {
+                                text: 'Ale Range',
+                                style: {
+                                    color: '#606060'
+                                },
+                                textAlign: 'left'
+                            }
+                        }]
+                    },
+                    plotOptions: {
+                        spline: {
+                            lineWidth: 4,
+                            states: {
+                                hover: {
+                                    lineWidth: 5
+                                }
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            pointInterval: 5000, // one hour
+                            pointStart: Date.UTC(2016, 1, 12, 0, 0, 0)
+                        }
+                    },
+                    series: response.data
+                })
+            });
+
+
         $http.get('/temp/0').
             then(function (response) {
                 Highcharts.chart('temp-gauge0', {
-
                     chart: {
                         type: 'gauge',
                         plotBackgroundColor: null,
@@ -90,7 +150,6 @@ angular.module('hopologybrewing-bcs', [])
                                 color: ((response.data[0].setpoint > 0) ? '#55BF3B' : '#606060')
                             }]
                     },
-
                     series: response.data
                 })
             });
@@ -98,7 +157,6 @@ angular.module('hopologybrewing-bcs', [])
         $http.get('/temp/1').
             then(function (response) {
                 Highcharts.chart('temp-gauge1', {
-
                     chart: {
                         type: 'gauge',
                         plotBackgroundColor: null,
@@ -175,7 +233,6 @@ angular.module('hopologybrewing-bcs', [])
                                 color: ((response.data[0].setpoint > 0) ? '#55BF3B' : '#606060')
                             }]
                     },
-
                     series: response.data
                 })
             })
