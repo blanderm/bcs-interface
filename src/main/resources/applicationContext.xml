@@ -12,14 +12,9 @@
 
     <!-- Add bean definitions -->
     <bean id="tempService" class="com.hopologybrewing.bcs.capture.service.TemperatureService">
-        <property name="bcsControllerExternalIp" value="${bcs.controller.ext.ip}"/>
-        <property name="bcsControllerInternalIp" value="${bcs.controller.int.ip}"/>
         <property name="fileLocation" value="${temps.file}"/>
     </bean>
-    <bean id="outputService" class="com.hopologybrewing.bcs.capture.service.OutputService">
-        <property name="bcsControllerExternalIp" value="${bcs.controller.ext.ip}"/>
-        <property name="bcsControllerInternalIp" value="${bcs.controller.int.ip}"/>
-    </bean>
+    <bean id="outputService" class="com.hopologybrewing.bcs.capture.service.OutputService"/>
 
     <bean id="tempMessageRecorder" class="com.hopologybrewing.bcs.capture.batch.TemperatureProbeMessageRecorder"/>
 
