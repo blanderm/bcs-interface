@@ -13,72 +13,90 @@ angular.module('hopologybrewing-bcs', [])
         $http.get('/temp/history').
             then(function (response) {
                 Highcharts.chart('temp-history', {
-                    chart: {
-                        zoomType: 'x'
-                    },
+                        chart: {
+                            zoomType: 'x'
+                        },
 
-                    exporting: {
-                        enabled: false
-                    },
+                        exporting: {
+                            enabled: false
+                        },
 
-                    title: {
-                        text: 'Temperature History'
-                    },
+                        title: {
+                            text: 'Temperature History'
+                        },
 
-                    tooltip: {
-                        shared: true,
-                        crosshairs: true
-                    },
+                        tooltip: {
+                            shared: true,
+                            crosshairs: true
+                        },
 
-                    xAxis: {
-                        type: 'datetime',
-                        //                        tickInterval: 7 * 24 * 3600 * 1000, // 24 hours
-                        //                        tickWidth: 0,
-                        //                        gridLineWidth: 1,
-                        labels: {
-                            //format: '{value:%mm/%dd/%yyyy HH:mm:ss}',
-                            align: 'right',
-                            rotation: -30
-                        }
-                    },
-
-                    yAxis: {
-                        softMin: 60,
-                        softMax: 78,
-                        startOnTick: false,
-                        plotBands: [{
-                            from: 65,
-                            to: 70,
-                            color: 'rgba(68, 170, 213, 0.1)',
-                            label: {
-                                text: 'Ale Range',
-                                style: {
-                                    color: '#606060'
-                                },
-                                textAlign: 'left'
+                        xAxis: {
+                            type: 'datetime',
+                            //                        tickInterval: 7 * 24 * 3600 * 1000, // 24 hours
+                            //                        tickWidth: 0,
+                            //                        gridLineWidth: 1,
+                            labels: {
+                                //format: '{value:%mm/%dd/%yyyy HH:mm:ss}',
+                                align: 'right',
+                                rotation: -30
                             }
-                        }]
-                    },
+                        },
 
-                    plotOptions: {
-                        spline: {
-                            lineWidth: 4,
-                            states: {
-                                hover: {
-                                    lineWidth: 5
+                        yAxis: {
+                            softMin: 60,
+                            softMax: 78,
+                            startOnTick: false,
+                            plotBands: [{
+                                from: 65,
+                                to: 70,
+                                color: 'rgba(68, 170, 213, 0.1)',
+                                label: {
+                                    text: 'Ale Range',
+                                    style: {
+                                        color: '#606060'
+                                    },
+                                    textAlign: 'left'
                                 }
-                            },
-                            marker: {
-                                enabled: false
-                            },
-                            pointInterval: 5000, // one hour
-                            pointStart: Date.UTC(2016, 1, 12, 0, 0, 0)
-                        }
+                            }]
+                        },
+
+                        plotOptions: {
+                            spline: {
+                                lineWidth: 4,
+                                states: {
+                                    hover: {
+                                        lineWidth: 5
+                                    }
+                                },
+                                marker: {
+                                    enabled: false
+                                },
+                                pointInterval: 5000, // one hour
+                                pointStart: Date.UTC(2016, 1, 12, 0, 0, 0)
+                            }
+                        },
+
+                        series: response.data
                     },
+                    function (chart) {
+                        if (!chart.renderer.forExport) {
+                            setInterval(function () {
+                                // set up the updating of the chart each second
+                                var series1 = chart.series[0];
+                                var x = (new Date()).getTime();
 
-                    series: response.data
+                                $.getJSON('/temp/1', function (data) {
+                                    series1.addPoint([x, data[0].data[0]], true, true);
+                                });
 
-                })
+                                var series2 = chart.series[1];
+                                $.getJSON('/temp/0', function (data) {
+                                    series2.addPoint([x, data[0].data[0]], true, true);
+                                });
+                            }, 300000);
+                        }
+                    }
+                )
             });
 
 
