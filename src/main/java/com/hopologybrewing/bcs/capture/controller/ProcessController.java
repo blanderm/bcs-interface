@@ -27,8 +27,13 @@ public class ProcessController extends BcsService {
     }
 
     @RequestMapping("/process")
-    public HttpEntity<List> getActiveProcesses() {
-        return new HttpEntity<List>(processService.getActiveProcesses());
+    public HttpEntity<List> getProcessStatus() {
+        return new HttpEntity<List>(processService.getProcesses());
+    }
+
+    @RequestMapping("/process/status")
+    public HttpEntity<List> getProcesses() {
+        return new HttpEntity<List>(processService.getProcessStatus());
     }
 
     @Autowired

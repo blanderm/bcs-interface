@@ -1,5 +1,7 @@
-.btn-off {
+.btn {
     background-color: #008CBA; /* Green */
+    height: 55px;
+    width: 150px;
     border: none;
     color: white;
     padding: 12px 28px;

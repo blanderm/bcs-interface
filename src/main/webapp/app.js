@@ -5,21 +5,28 @@ angular.module('hopologybrewing-bcs', [])
                 $scope.outputs = response.data;
             });
     })
+    
+    .controller('processController', function ($scope, $http) {
+        $http.get('/process').
+            then(function (response) {
+                // find active process and get current state
+                if (response.data != null) {
+                    $scope.processes = response.data;
+                }
+            })
+    })
 
     .controller('currentStateController', function ($scope, $http) {
-        $http.get('/process').
+        $http.get('/process/status').
             then(function (response) {
                 // find active process and get current state
                 if (response.data != null) {
                     var enabledProcesses = [];
                     for (var i = 0; i < response.data.length; i++) {
-                        console.log('process' + i + ' ' + response.data[i]);
                         if (response.data[i]) {
                             enabledProcesses.push(i);
                         }
                     }
-
-                    console.log('array of enabled: ' + enabledProcesses[0]);
 
                     for (var j = 0; j < enabledProcesses.length; j++) {
                         $http.get('/process/'.concat(enabledProcesses[j])).
@@ -29,7 +36,6 @@ angular.module('hopologybrewing-bcs', [])
                                     $scope.activeProcess = processResponse.data;
                                     var nextState = processResponse.data.current_state.state + 1;
                                     $scope.nextState = processResponse.data.states[nextState];
-                                    console.log(processResponse.data);
                                 }
                             });
 
@@ -37,7 +43,6 @@ angular.module('hopologybrewing-bcs', [])
                             then(function (stateResponse) {
                                 $scope.activeState = stateResponse.data;
                                 //$scope.activeStateTimers = stateResponse.data.timers;
-                                console.log(stateResponse.data.timers[0]);
                             });
                     }
                 }
