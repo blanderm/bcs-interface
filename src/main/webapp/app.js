@@ -1,15 +1,25 @@
 angular.module('hopologybrewing-bcs', [])
     .controller('outputController', function ($scope, $http) {
-        console.log('outputController');
         $http.get('/output').
             then(function (response) {
                 $scope.outputs = response.data;
             });
+    })
 
+    .controller('currentStateController', function ($scope, $http) {
+        $http.get('/process').
+            then(function (response) {
+                // find active process and get current state
+                var processId = 2;
+
+                $http.get('/process/'.concat(processId).concat('/current_state')).
+                    then(function (stateResponse) {
+                        $scope.activeState = stateResponse.data;
+                    });
+            });
     })
 
     .controller('chartController', function ($scope, $http) {
-        console.log("ChartController");
         $http.get('/temp/history').
             then(function (response) {
                 Highcharts.chart('temp-history', {

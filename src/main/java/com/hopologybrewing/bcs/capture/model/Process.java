@@ -1,6 +1,7 @@
 package com.hopologybrewing.bcs.capture.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,10 @@ public class Process {
     private String name;
     private boolean running;
     private boolean paused;
+    @JsonProperty("run_on_startup")
     private boolean runOnStartup;
+    @JsonProperty("current_state")
+    private CurrentState currentState;
     private boolean display;
 
     public List<String> getStates() {
@@ -81,5 +85,13 @@ public class Process {
 
     public void setDisplay(boolean display) {
         this.display = display;
+    }
+
+    public CurrentState getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(CurrentState currentState) {
+        this.currentState = currentState;
     }
 }

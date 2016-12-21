@@ -1,6 +1,7 @@
 package com.hopologybrewing.bcs.capture.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.lang.*;
 import java.lang.Process;
@@ -14,12 +15,18 @@ public class State {
     private String name;
     private List<Timer> timers;
     private Ramp ramp;
-    private List<Output> outputs;
-    private List<java.lang.Process> processSpawn;
-    private List<java.lang.Process> processKill;
+    private List<Boolean> outputs;
+    @JsonProperty("process_spawn")
+    private List<Boolean> processSpawn;
+    @JsonProperty("process_kill")
+    private List<Boolean> processKill;
+    @JsonProperty("state_alarm")
     private int stateAlarm;
+    @JsonProperty("email_alarm")
     private boolean emailAlarm;
-    private List<Register> registers;
+    private List<Boolean> registers;
+
+    public State() {}
 
     public State(String name) {
         this.name = name;
@@ -49,30 +56,6 @@ public class State {
         this.ramp = ramp;
     }
 
-    public List<Output> getOutputs() {
-        return outputs;
-    }
-
-    public void setOutputs(List<Output> outputs) {
-        this.outputs = outputs;
-    }
-
-    public List<Process> getProcessSpawn() {
-        return processSpawn;
-    }
-
-    public void setProcessSpawn(List<Process> processSpawn) {
-        this.processSpawn = processSpawn;
-    }
-
-    public List<Process> getProcessKill() {
-        return processKill;
-    }
-
-    public void setProcessKill(List<Process> processKill) {
-        this.processKill = processKill;
-    }
-
     public int getStateAlarm() {
         return stateAlarm;
     }
@@ -89,11 +72,35 @@ public class State {
         this.emailAlarm = emailAlarm;
     }
 
-    public List<Register> getRegisters() {
+    public List<Boolean> getOutputs() {
+        return outputs;
+    }
+
+    public void setOutputs(List<Boolean> outputs) {
+        this.outputs = outputs;
+    }
+
+    public List<Boolean> getProcessSpawn() {
+        return processSpawn;
+    }
+
+    public void setProcessSpawn(List<Boolean> processSpawn) {
+        this.processSpawn = processSpawn;
+    }
+
+    public List<Boolean> getProcessKill() {
+        return processKill;
+    }
+
+    public void setProcessKill(List<Boolean> processKill) {
+        this.processKill = processKill;
+    }
+
+    public List<Boolean> getRegisters() {
         return registers;
     }
 
-    public void setRegisters(List<Register> registers) {
+    public void setRegisters(List<Boolean> registers) {
         this.registers = registers;
     }
 }

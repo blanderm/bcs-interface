@@ -4,6 +4,7 @@ import com.hopologybrewing.bcs.capture.BasicAuthRestTemplate;
 import com.hopologybrewing.bcs.capture.controller.BcsConstants;
 import com.hopologybrewing.bcs.capture.model.Output;
 import com.hopologybrewing.bcs.capture.model.State;
+import com.hopologybrewing.bcs.capture.model.Process;
 import com.hopologybrewing.bcs.capture.model.TemperatureProbe;
 import com.hopologybrewing.bcs.capture.model.Timer;
 import org.slf4j.Logger;
@@ -12,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public abstract class BcsService {
@@ -27,6 +25,7 @@ public abstract class BcsService {
         Map<Type, String> url = new HashMap<>();
         url.put(Type.TEMP, BcsConstants.API_ROOT + "temp/%s");
         url.put(Type.PROCESS, BcsConstants.API_ROOT + "process/%s");
+        url.put(Type.PROCESSES, BcsConstants.API_ROOT + "process");
         url.put(Type.STATE, BcsConstants.API_ROOT + "process/%s/state/%s");
         url.put(Type.TIMER, BcsConstants.API_ROOT + "process/%s/timer/%s");
         url.put(Type.OUTPUT, BcsConstants.API_ROOT + "output/%s");
@@ -36,6 +35,7 @@ public abstract class BcsService {
         Map<Type, Class> clz = new HashMap<>();
         clz.put(Type.TEMP, TemperatureProbe.class);
         clz.put(Type.PROCESS, Process.class);
+        clz.put(Type.PROCESSES, List.class);
         clz.put(Type.STATE, State.class);
         clz.put(Type.TIMER, Timer.class);
         clz.put(Type.OUTPUT, Output.class);
@@ -59,5 +59,5 @@ public abstract class BcsService {
         return obj;
     }
 
-    public enum Type {TEMP, PROCESS, STATE, TIMER, OUTPUT, OUTPUTS}
+    public enum Type {TEMP, PROCESS, PROCESSES, STATE, TIMER, OUTPUT, OUTPUTS}
 }

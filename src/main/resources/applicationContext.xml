@@ -15,6 +15,8 @@
         <property name="fileLocation" value="${temps.file}"/>
     </bean>
     <bean id="outputService" class="com.hopologybrewing.bcs.capture.service.OutputService"/>
+    <bean id="processService" class="com.hopologybrewing.bcs.capture.service.ProcessService"/>
+    <bean id="stateService" class="com.hopologybrewing.bcs.capture.service.StateService"/>
 
     <bean id="tempMessageRecorder" class="com.hopologybrewing.bcs.capture.batch.TemperatureProbeMessageRecorder"/>
 

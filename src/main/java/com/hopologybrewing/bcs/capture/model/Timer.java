@@ -1,6 +1,7 @@
 package com.hopologybrewing.bcs.capture.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by ddcbryanl on 12/5/16.
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Timer {
     private String name;
     private boolean used;
+    @JsonProperty("count_up")
     private boolean countUp;
     private long init;
     private boolean preserve;

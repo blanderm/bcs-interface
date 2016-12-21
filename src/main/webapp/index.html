@@ -22,21 +22,28 @@
 
     <body ng-app="hopologybrewing-bcs">
         <div>
-            <div ng-controller="outputController" class="panel panel-default">
+            <div class="panel panel-default">
                 <div class="panel-body">
-                    <div id="temp-gauge0" class="gauge"></div>
-                    <div id="temp-gauge1" class="gauge"></div>
                     <div class="panel panel-default clear">
                         <div class="panel-body">
+                            <div id="temp-gauge0" class="gauge"></div>
+                            <div id="temp-gauge1" class="gauge"></div>
+                            <!-- Figure out how to call for active state to display, including the current timer -->
+                            <!--<div ng-controller="currentStateController" id="currentState">-->
+                                <!--<span ng-bind="activeState.name">{{ activeState.timers[0].value }}</span>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                    <div class="panel panel-default clear">
+                        <div class="panel-body" ng-controller="outputController">
                             <div ng-repeat="output in outputs">
                                 <button id="{{'output' + $index}}" data-ng-class="[output.on ? 'btn-on' : 'btn-off']" ng-bind="output.name" style="float: left"/>
                             </div>
                         </div>
                     </div>
+                    <div ng-controller="chartController" id="temp-history" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
                 </div>
             </div>
-
-            <div ng-controller="chartController" id="temp-history" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
         </div>
     </body>
 </html>
