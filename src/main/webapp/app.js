@@ -5,7 +5,7 @@ angular.module('hopologybrewing-bcs', [])
                 $scope.outputs = response.data;
             });
     })
-    
+
     .controller('processController', function ($scope, $http) {
         $http.get('/process').
             then(function (response) {

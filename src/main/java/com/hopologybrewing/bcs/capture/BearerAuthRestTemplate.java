@@ -20,9 +20,6 @@ import java.util.List;
  */
 public class BearerAuthRestTemplate extends RestTemplate {
     private void addAuthentication(String username, String password) {
-        if (username == null) {
-            return;
-        }
         List<ClientHttpRequestInterceptor> interceptors = Collections
                 .<ClientHttpRequestInterceptor>singletonList(
                         new BearerAuthorizationInterceptor());
@@ -36,6 +33,7 @@ public class BearerAuthRestTemplate extends RestTemplate {
         @Override
         public ClientHttpResponse intercept(HttpRequest request, byte[] body,
                                             ClientHttpRequestExecution execution) throws IOException {
+            request.getHeaders().add("Content-Type", "text/json");
             request.getHeaders().add("Authorization", "Bearer " + new String("token"));
             return execution.execute(request, body);
         }

@@ -17,6 +17,7 @@
     <bean id="outputService" class="com.hopologybrewing.bcs.capture.service.OutputService"/>
     <bean id="processService" class="com.hopologybrewing.bcs.capture.service.ProcessService"/>
     <bean id="stateService" class="com.hopologybrewing.bcs.capture.service.StateService"/>
+    <bean id="ecobeeService" class="com.hopologybrewing.bcs.capture.service.EcobeeService"/>
 
     <bean id="tempMessageRecorder" class="com.hopologybrewing.bcs.capture.batch.TemperatureProbeMessageRecorder"/>
 
