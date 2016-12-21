@@ -10,16 +10,42 @@ angular.module('hopologybrewing-bcs', [])
         $http.get('/process').
             then(function (response) {
                 // find active process and get current state
-                var processId = 2;
+                if (response.data != null) {
+                    var enabledProcesses = [];
+                    for (var i = 0; i < response.data.length; i++) {
+                        console.log('process' + i + ' ' + response.data[i]);
+                        if (response.data[i]) {
+                            enabledProcesses.push(i);
+                        }
+                    }
 
-                $http.get('/process/'.concat(processId).concat('/current_state')).
-                    then(function (stateResponse) {
-                        $scope.activeState = stateResponse.data;
-                    });
+                    console.log('array of enabled: ' + enabledProcesses[0]);
+
+                    for (var j = 0; j < enabledProcesses.length; j++) {
+                        $http.get('/process/'.concat(enabledProcesses[j])).
+                            then(function (processResponse) {
+                                if (processResponse.data != null) {
+
+                                    $scope.activeProcess = processResponse.data;
+                                    var nextState = processResponse.data.current_state.state + 1;
+                                    $scope.nextState = processResponse.data.states[nextState];
+                                    console.log(processResponse.data);
+                                }
+                            });
+
+                        $http.get('/process/'.concat(enabledProcesses[j]).concat('/current_state')).
+                            then(function (stateResponse) {
+                                $scope.activeState = stateResponse.data;
+                                //$scope.activeStateTimers = stateResponse.data.timers;
+                                console.log(stateResponse.data.timers[0]);
+                            });
+                    }
+                }
             });
     })
 
-    .controller('chartController', function ($scope, $http) {
+    .
+    controller('chartController', function ($scope, $http) {
         $http.get('/temp/history').
             then(function (response) {
                 Highcharts.chart('temp-history', {

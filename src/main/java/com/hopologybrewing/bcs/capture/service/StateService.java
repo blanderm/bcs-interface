@@ -20,7 +20,7 @@ public class StateService extends BcsService {
         Process p = (Process) getData(Type.PROCESS, processId);
 
         State state = null;
-        if (p.getCurrentState() != null) {
+        if (p.isRunning() && p.getCurrentState() != null) {
             Integer stateId = p.getCurrentState().getState();
             state = (State) getData(Type.STATE, processId, String.valueOf(stateId));
 
@@ -39,7 +39,7 @@ public class StateService extends BcsService {
                 state.setTimers(newTimerList);
             }
         }
-        
+
         return state;
     }
 }

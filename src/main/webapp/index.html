@@ -28,10 +28,15 @@
                         <div class="panel-body">
                             <div id="temp-gauge0" class="gauge"></div>
                             <div id="temp-gauge1" class="gauge"></div>
-                            <!-- Figure out how to call for active state to display, including the current timer -->
-                            <!--<div ng-controller="currentStateController" id="currentState">-->
-                                <!--<span ng-bind="activeState.name">{{ activeState.timers[0].value }}</span>-->
-                            <!--</div>-->
+                             <!--Figure out how to call for active state to display, including the current timer-->
+                            <div class="panel panel-default stack">
+                                <div ng-controller="currentStateController" id="currentState" class="panel-body">
+                                    <h1>{{ activeProcess.name }}</h1>
+                                    <div><b>Active State:</b> {{ activeState.name }} {{ activeProcess.paused ? '(paused)' : ''}}</div>
+                                    <div><b>Active Timer ({{activeState.timers[0].count_up ? 'up' : 'dn'}}):</b> {{ activeState.timers[0].value | date:'HH:mm:ss:sss' }}</div>
+                                    <div><b>Next State:</b> {{nextState}}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="panel panel-default clear">
