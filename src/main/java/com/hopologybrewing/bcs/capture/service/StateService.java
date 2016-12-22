@@ -32,7 +32,7 @@ public class StateService extends BcsService {
 
                     if (timer.isUsed()) {
                         timer = (Timer) getData(Type.TIMER, processId, String.valueOf(i));
-                        newTimerList.add(i, timer);
+                        newTimerList.add(timer);
                     }
                 }
 
