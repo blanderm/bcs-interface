@@ -3,7 +3,6 @@ package com.hopologybrewing.bcs.capture.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hopologybrewing.bcs.capture.model.TemperatureProbe;
-import com.hopologybrewing.bcs.capture.service.EcobeeService;
 import com.hopologybrewing.bcs.capture.service.TemperatureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,16 +20,10 @@ import java.util.Map;
 public class TemperatureController {
     private static final Logger log = LoggerFactory.getLogger(TemperatureController.class);
     private TemperatureService tempService;
-    private EcobeeService ecobeeService;
 
     @RequestMapping("/temp")
     public HttpEntity<List<TemperatureProbe>> getTemps() {
         return new HttpEntity<List<TemperatureProbe>>(tempService.getEnabledProbes());
-    }
-
-    @RequestMapping("/thermostat")
-    public HttpEntity<Object> getThermostats() {
-        return new HttpEntity<Object>(ecobeeService.getThermostats());
     }
 
     @RequestMapping("/temp/{tid}")
@@ -73,10 +66,5 @@ public class TemperatureController {
     @Autowired
     public void setTempService(TemperatureService tempService) {
         this.tempService = tempService;
-    }
-
-    @Autowired
-    public void setEcobeeService(EcobeeService ecobeeService) {
-        this.ecobeeService = ecobeeService;
     }
 }

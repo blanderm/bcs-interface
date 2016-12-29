@@ -42,7 +42,7 @@
                     <div class="panel panel-default stack">
                         <div class="panel-body" ng-controller="processController">
                             <div ng-repeat="process in processes">
-                                <button data-toggle="modal" data-target="{{'#states' + $index}}" name="{{process.name}}" value="{{$index}}" ng-show="!process.name.startsWith('Process ')" class="btn">{{process.name}}</button>
+                                <button data-toggle="modal" data-target="{{'#states' + $index}}" name="{{process.name}}" value="{{$index}}" ng-show="!process.name.startsWith('Process ')" data-ng-class="[process.running ? 'btn btn-on' : 'btn']">{{process.name}}</button>
 
                                 <div id="{{'states' + $index}}" class="modal fade" role="dialog">
                                     <div class="modal-dialog">
@@ -53,7 +53,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <ul>
-                                                    <li ng-show="process.states != null && !state.startsWith('State ')" ng-repeat="state in process.states">
+                                                    <li ng-show="process.states != null && !state.startsWith('State ')" ng-repeat="state in process.states" data-ng-class="[process.current_state.state == $index ? 'state-list-on' : '']">
                                                         {{ state }}
                                                     </li>
                                                 </ul>

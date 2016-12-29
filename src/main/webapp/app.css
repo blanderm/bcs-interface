@@ -1,5 +1,5 @@
 .btn {
-    background-color: #008CBA; /* Green */
+    background-color: #008CBA;
     height: 55px;
     width: 150px;
     border: none;
@@ -26,6 +26,10 @@
     font-size: 16px;
     float: left;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.state-list-on {
+    color: #4CAF50;
 }
 
 .stack {
