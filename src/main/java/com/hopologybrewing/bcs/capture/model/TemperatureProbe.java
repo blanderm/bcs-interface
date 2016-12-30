@@ -10,8 +10,8 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TemperatureProbe {
     private String name;
-    private int temp;
-    private int setpoint;
+    private double temp;
+    private double setpoint;
     private double resistance;
     private boolean enabled;
     private List<Double> coefficients;
@@ -22,22 +22,6 @@ public class TemperatureProbe {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getTemp() {
-        return temp;
-    }
-
-    public void setTemp(int temp) {
-        this.temp = temp;
-    }
-
-    public int getSetpoint() {
-        return setpoint;
-    }
-
-    public void setSetpoint(int setpoint) {
-        this.setpoint = setpoint;
     }
 
     public double getResistance() {
@@ -62,5 +46,21 @@ public class TemperatureProbe {
 
     public void setCoefficients(List<Double> coefficients) {
         this.coefficients = coefficients;
+    }
+
+    public double getTemp() {
+        return temp;
+    }
+
+    public void setTemp(double temp) {
+        this.temp = temp;
+    }
+
+    public double getSetpoint() {
+        return setpoint;
+    }
+
+    public void setSetpoint(double setpoint) {
+        this.setpoint = setpoint;
     }
 }
