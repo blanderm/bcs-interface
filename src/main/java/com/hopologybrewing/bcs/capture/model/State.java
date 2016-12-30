@@ -25,6 +25,7 @@ public class State {
     @JsonProperty("email_alarm")
     private boolean emailAlarm;
     private List<Boolean> registers;
+    private List<ExitCondition> exitConditions;
 
     public State() {}
 
@@ -102,5 +103,13 @@ public class State {
 
     public void setRegisters(List<Boolean> registers) {
         this.registers = registers;
+    }
+
+    public List<ExitCondition> getExitConditions() {
+        return exitConditions;
+    }
+
+    public void setExitConditions(List<ExitCondition> exitConditions) {
+        this.exitConditions = exitConditions;
     }
 }

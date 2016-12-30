@@ -30,6 +30,7 @@ public abstract class BcsService {
         url.put(Type.TIMER, BcsConstants.API_ROOT + "process/%s/timer/%s");
         url.put(Type.OUTPUT, BcsConstants.API_ROOT + "output/%s");
         url.put(Type.OUTPUTS, BcsConstants.API_ROOT + "output");
+        url.put(Type.EXIT_CONDITIONS, BcsConstants.API_ROOT + "/process/%s/state/%s/exit_conditions");
         urlMap = Collections.unmodifiableMap(url);
 
         Map<Type, Class> clz = new HashMap<>();
@@ -40,6 +41,7 @@ public abstract class BcsService {
         clz.put(Type.TIMER, Timer.class);
         clz.put(Type.OUTPUT, Output.class);
         clz.put(Type.OUTPUTS, ArrayList.class);
+        clz.put(Type.EXIT_CONDITIONS, ArrayList.class);
         classMap = Collections.unmodifiableMap(clz);
     }
 
@@ -59,5 +61,5 @@ public abstract class BcsService {
         return obj;
     }
 
-    public enum Type {TEMP, PROCESS, PROCESSES, STATE, TIMER, OUTPUT, OUTPUTS}
+    public enum Type {TEMP, PROCESS, PROCESSES, STATE, TIMER, OUTPUT, OUTPUTS, EXIT_CONDITIONS}
 }

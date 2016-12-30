@@ -34,14 +34,35 @@ angular.module('hopologybrewing-bcs', [])
                                 if (processResponse.data != null) {
 
                                     $scope.activeProcess = processResponse.data;
-                                    var nextState = processResponse.data.current_state.state + 1;
-                                    $scope.nextState = processResponse.data.states[nextState];
                                 }
                             });
 
                         $http.get('/process/'.concat(enabledProcesses[j]).concat('/current_state')).
                             then(function (stateResponse) {
                                 $scope.activeState = stateResponse.data;
+                                var exitConditions = stateResponse.data.exitConditions;
+
+                                if (exitConditions != null) {
+                                    for (var k = 0; k < exitConditions.length; k++) {
+                                        $scope.nextState = $scope.activeProcess.states[exitConditions[k].next_state];
+                                    }
+                                }
+
+                                $scope.convertTimerValue = function(value) {
+                                    // hours
+                                    var calculatedTimer = value/10/60/60;
+                                    var strTimer = "" + Math.floor(calculatedTimer) + ":";
+
+                                    // mins
+                                    calculatedTimer = calculatedTimer%1*60;
+                                    strTimer = strTimer + Math.floor(calculatedTimer) + ":";
+
+                                    // seconds
+                                    calculatedTimer = calculatedTimer%1*60;
+
+                                    return strTimer + Math.floor(calculatedTimer);
+                                };
+
                                 //$scope.activeStateTimers = stateResponse.data.timers;
                             });
                     }
