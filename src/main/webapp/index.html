@@ -26,6 +26,12 @@
                 <div class="panel-body">
                     <div class="panel panel-default stack">
                         <div class="panel-body">
+                            <!-- should add probe id to TemperatureProbe class and use that instead of $index -->
+                            <!--<div ng-controller="gaugeController">-->
+                                <!--<div ng-repeat="probe in tempProbes">-->
+                                    <!--<div id="{{'temp-gauge-d' + $index}}" class="gauge" >{{ getGauge($index, 'temp-gauge-d') }}</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div id="temp-gauge0" class="gauge"></div>
                             <div id="temp-gauge1" class="gauge"></div>
                              <!--Figure out how to call for active state to display, including the current timer-->
