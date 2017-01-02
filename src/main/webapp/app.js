@@ -52,14 +52,16 @@ angular.module('hopologybrewing-bcs', [])
                                     // days
                                     var calculatedTimer = value / 10 / 60 / 60 / 24;
                                     var strTimer = "";
+                                    var floor;
 
-                                    if (calculatedTimer > 1) {
-                                        strTimer = Math.floor(calculatedTimer) + " days ";
+                                    floor = Math.floor(calculatedTimer);
+                                    if (floor >= 1) {
+                                        strTimer = floor + (floor > 1 ? " days " : " day ");
                                     }
 
                                     // hours
                                     calculatedTimer = calculatedTimer % 1 * 24;
-                                    var floor = Math.floor(calculatedTimer);
+                                    floor = Math.floor(calculatedTimer);
                                     strTimer = strTimer + (floor < 10 ? '0' + floor : floor)  + ":";
 
                                     // mins
