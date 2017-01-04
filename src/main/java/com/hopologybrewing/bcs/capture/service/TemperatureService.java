@@ -38,11 +38,14 @@ public class TemperatureService extends BcsService {
             try {
                 while ((line = reader.readLine()) != null) {
                     probeRecording = mapper.readValue(line, TemperatureProbeRecording.class);
-                    addDataPoint(probesMap, probeRecording.getProbe().getName(), probeRecording.getTimestamp(), new Double(probeRecording.getProbe().getTemp())/10);
 
-                    // skip points where the SP isn't set
-                    if (probeRecording.getProbe().getSetpoint() > 0) {
-                        addDataPoint(probesMap, probeRecording.getProbe().getName() + "-SP", probeRecording.getTimestamp(), new Double(probeRecording.getProbe().getSetpoint()) / 10);
+                    if (probeRecording != null && probeRecording.getProbe() != null) {
+                        addDataPoint(probesMap, probeRecording.getProbe().getName(), probeRecording.getTimestamp(), new Double(probeRecording.getProbe().getTemp()) / 10);
+
+                        // skip points where the SP isn't set
+                        if (probeRecording.getProbe().getSetpoint() > 0) {
+                            addDataPoint(probesMap, probeRecording.getProbe().getName() + "-SP", probeRecording.getTimestamp(), new Double(probeRecording.getProbe().getSetpoint()) / 10);
+                        }
                     }
                 }
             } catch (IOException e) {

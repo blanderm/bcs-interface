@@ -56,18 +56,20 @@ public class OutputService extends BcsService {
             try {
                 while ((line = reader.readLine()) != null) {
                     outputRecording = mapper.readValue(line, OutputRecording.class);
-                    recordings = outputsMap.get(outputRecording.getOutput().getName());
+                    if (outputRecording != null && outputRecording.getOutput() != null) {
+                        recordings = outputsMap.get(outputRecording.getOutput().getName());
 
-                    if (recordings == null) {
-                        recordings = new ArrayList<>();
+                        if (recordings == null) {
+                            recordings = new ArrayList<>();
+                        }
+
+                        data = new ArrayList<>();
+                        data.add(outputRecording.getTimestamp());
+                        data.add((outputRecording.getOutput().isOn() ? 1 : 0));
+
+                        recordings.add(data);
+                        outputsMap.put(outputRecording.getOutput().getName(), recordings);
                     }
-
-                    data = new ArrayList<>();
-                    data.add(outputRecording.getTimestamp());
-                    data.add((outputRecording.getOutput().isOn() ? 1 : 0));
-
-                    recordings.add(data);
-                    outputsMap.put(outputRecording.getOutput().getName(), recordings);
                 }
             } catch (IOException e) {
                 log.error("Error reading file " + fileLocation + " - ", e);
