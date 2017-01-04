@@ -285,6 +285,64 @@ angular.module('hopologybrewing-bcs', [])
                 )
             });
 
+        $http.get('/output/history').
+            then(function (response) {
+                Highcharts.chart('output-history', {
+                        chart: {
+                            zoomType: 'x'
+                        },
+
+                        exporting: {
+                            enabled: false
+                        },
+
+                        title: {
+                            text: 'Output History'
+                        },
+
+                        tooltip: {
+                            shared: true,
+                            crosshairs: true
+                        },
+
+                        xAxis: {
+                            type: 'datetime',
+                            //                        tickInterval: 7 * 24 * 3600 * 1000, // 24 hours
+                            //                        tickWidth: 0,
+                            //                        gridLineWidth: 1,
+                            labels: {
+                                //format: '{value:%mm/%dd/%yyyy HH:mm:ss}',
+                                align: 'right',
+                                rotation: -30
+                            }
+                        },
+
+                        yAxis: {
+                            softMin: 0,
+                            softMax: 1,
+                            startOnTick: false,
+                        },
+
+                        plotOptions: {
+                            spline: {
+                                lineWidth: 4,
+                                states: {
+                                    hover: {
+                                        lineWidth: 5
+                                    }
+                                },
+                                marker: {
+                                    enabled: false
+                                },
+                                pointInterval: 5000, // one hour
+                                pointStart: Date.UTC(2016, 1, 12, 0, 0, 0)
+                            }
+                        },
+
+                        series: response.data
+                    }
+                )
+            });
 
         $http.get('/temp/0').
             then(function (response) {

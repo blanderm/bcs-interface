@@ -3,37 +3,39 @@ package com.hopologybrewing.bcs.capture.batch;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hopologybrewing.bcs.capture.model.Output;
+import com.hopologybrewing.bcs.capture.model.OutputRecording;
 import com.hopologybrewing.bcs.capture.model.TemperatureProbe;
 import com.hopologybrewing.bcs.capture.model.TemperatureProbeRecording;
+import com.hopologybrewing.bcs.capture.service.OutputService;
 import com.hopologybrewing.bcs.capture.service.TemperatureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TemperatureProbeMessageRecorder {
-    private static final Logger log = LoggerFactory.getLogger(TemperatureProbeMessageRecorder.class);
-    private static final Logger historyLogger = LoggerFactory.getLogger("bcs-temps-history");
-    private TemperatureService tempService;
+public class OutputMessageRecorder {
+    private static final Logger log = LoggerFactory.getLogger(OutputMessageRecorder.class);
+    private static final Logger historyLogger = LoggerFactory.getLogger("bcs-outputs-history");
+    private OutputService outputService;
 
-    public String getNextTemperatureReading() {
+    public String getNextOutputReading() {
         StringBuffer probeValue = null;
 
         try {
             Date date = new Date();
             ObjectMapper mapper = new ObjectMapper();
-            TemperatureProbeRecording recording = null;
-            List<TemperatureProbe> probes = tempService.getEnabledProbes();
+            OutputRecording recording = null;
+            List<Output> outputs = outputService.getEnabledOutputs();
 
-            if (probes != null && !probes.isEmpty()) {
+            if (outputs != null && !outputs.isEmpty()) {
                 probeValue = new StringBuffer();
 
-                for (TemperatureProbe probe : probes) {
-                    recording = new TemperatureProbeRecording(probe, date);
+                for (Output output : outputs) {
+                    recording = new OutputRecording(output, date);
                     probeValue.append(mapper.writeValueAsString(recording)).append("\n");
                 }
             }
@@ -49,7 +51,8 @@ public class TemperatureProbeMessageRecorder {
     }
 
     @Autowired
-    public void setTempService(TemperatureService tempService) {
-        this.tempService = tempService;
+
+    public void setOutputService(OutputService outputService) {
+        this.outputService = outputService;
     }
 }

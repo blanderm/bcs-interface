@@ -14,7 +14,9 @@
     <bean id="tempService" class="com.hopologybrewing.bcs.capture.service.TemperatureService">
         <property name="fileLocation" value="${temps.file}"/>
     </bean>
-    <bean id="outputService" class="com.hopologybrewing.bcs.capture.service.OutputService"/>
+    <bean id="outputService" class="com.hopologybrewing.bcs.capture.service.OutputService">
+        <property name="fileLocation" value="${outputs.file}"/>
+    </bean>
     <bean id="processService" class="com.hopologybrewing.bcs.capture.service.ProcessService"/>
     <bean id="stateService" class="com.hopologybrewing.bcs.capture.service.StateService"/>
 
@@ -25,6 +27,15 @@
     </int:inbound-channel-adapter>
 
     <int:service-activator input-channel="temps" ref="tempMessageRecorder"
+                           method="recordMessage"/>
+
+    <bean id="outputMessageRecorder" class="com.hopologybrewing.bcs.capture.batch.OutputMessageRecorder"/>
+
+    <int:inbound-channel-adapter id="outputs" ref="outputMessageRecorder" method="getNextOutputReading" auto-startup="true" >
+        <int:poller fixed-rate="1000" max-messages-per-poll="1"/>
+    </int:inbound-channel-adapter>
+
+    <int:service-activator input-channel="outputs" ref="outputMessageRecorder"
                            method="recordMessage"/>
 
     <!--<file:outbound-channel-adapter id="file" channel="temps"-->
