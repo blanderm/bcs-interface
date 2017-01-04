@@ -32,8 +32,14 @@
     color: #4CAF50;
 }
 
-.stack {
+.stack-left {
+
     float: left;
+}
+
+.stack-right {
+
+    float: right;
 }
 
 .clear {

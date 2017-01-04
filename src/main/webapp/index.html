@@ -24,7 +24,7 @@
         <div>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="panel panel-default stack">
+                    <div class="panel panel-default stack-left">
                         <div class="panel-body">
                             <!-- should add probe id to TemperatureProbe class and use that instead of $index -->
                             <!--<div ng-controller="gaugeController">-->
@@ -36,8 +36,8 @@
                             <div id="temp-gauge1" class="gauge"></div>
                              <!--Figure out how to call for active state to display, including the current timer-->
 
-                            <div class="panel panel-default stack">
-                                <div class="panel-body" ng-controller="processController">
+                            <div class="stack-right">
+                                <div ng-controller="processController">
                                     <div ng-repeat="process in processes">
                                         <button type="button" data-toggle="modal" data-target="{{'#states' + $index}}" name="{{process.name}}" value="{{$index}}" ng-show="!process.name.startsWith('Process ')" data-ng-class="[process.running ? 'btn btn-on' : 'btn']">{{process.name}}</button>
 
@@ -62,15 +62,15 @@
                                 </div>
                             </div>
 
-                            <div class="panel panel-default stack">
-                                <div class="panel-body">
-                                    <div ng-controller="currentStateController" id="currentState">
+                            <div  class="stack-right">
+                                <div >
+                                    <div ng-controller="currentStateController" id="currentState" class="stack-left">
                                         <h1>{{ activeProcess.name }}</h1>
                                         <div><b>Active State:</b> {{ activeState.name }}<span ng-show="activeProcess.paused" class="glyphicon glyphicon-pause" style="color: red"></span></div>
                                         <div><b>Active Timer ({{activeState.timers[0].count_up ? 'up' : 'dn'}}):</b> {{ convertTimerValue(activeState.timers[0].value) }}</div>
                                         <div ng-show="!nextState.startsWith('State ')"><b>Next State:</b> {{ nextState ? nextState : "(no exit condition set)"}}</div>
                                     </div>
-                                    <div ng-controller="outputController">
+                                    <div ng-controller="outputController" class="stack-right">
                                         <div ng-repeat="output in outputs">
                                             <button id="{{'output' + $index}}" data-ng-class="[output.on ? 'btn btn-on' : 'btn']" ng-bind="output.name" style="float: left"/>
                                         </div>
