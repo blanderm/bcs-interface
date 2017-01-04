@@ -263,25 +263,26 @@ angular.module('hopologybrewing-bcs', [])
                         },
 
                         series: response.data
-                    },
-                    function (chart) {
-                        if (!chart.renderer.forExport) {
-                            setInterval(function () {
-                                // set up the updating of the chart each second
-                                var series1 = chart.series[0];
-                                var x = (new Date()).getTime();
-
-                                $.getJSON('/temp/1', function (data) {
-                                    series1.addPoint([x, data[0].data[0]], true, true);
-                                });
-
-                                var series2 = chart.series[1];
-                                $.getJSON('/temp/0', function (data) {
-                                    series2.addPoint([x, data[0].data[0]], true, true);
-                                });
-                            }, 300000);
-                        }
                     }
+                    //,
+                    //function (chart) {
+                    //    if (!chart.renderer.forExport) {
+                    //        setInterval(function () {
+                    //            // set up the updating of the chart each second
+                    //            var series1 = chart.series[0];
+                    //            var x = (new Date()).getTime();
+                    //
+                    //            $.getJSON('/temp/1', function (data) {
+                    //                series1.addPoint([x, data[0].data[0]], true, true);
+                    //            });
+                    //
+                    //            var series2 = chart.series[1];
+                    //            $.getJSON('/temp/0', function (data) {
+                    //                series2.addPoint([x, data[0].data[0]], true, true);
+                    //            });
+                    //        }, 300000);
+                    //    }
+                    //}
                 )
             });
 
@@ -428,17 +429,18 @@ angular.module('hopologybrewing-bcs', [])
                                 }]
                         },
                         series: response.data
-                    },
-                    function (chart) {
-                        if (!chart.renderer.forExport) {
-                            setInterval(function () {
-                                var point = chart.series[0].points[0];
-                                $.getJSON('/temp/0', function (data) {
-                                    point.update(data[0].data[0]);
-                                });
-                            }, 300000);
-                        }
                     }
+                    //,
+                    //function (chart) {
+                    //    if (!chart.renderer.forExport) {
+                    //        setInterval(function () {
+                    //            var point = chart.series[0].points[0];
+                    //            $.getJSON('/temp/0', function (data) {
+                    //                point.update(data[0].data[0]);
+                    //            });
+                    //        }, 300000);
+                    //    }
+                    //}
                 )
             });
 
@@ -526,17 +528,18 @@ angular.module('hopologybrewing-bcs', [])
                                 }]
                         },
                         series: response.data
-                    },
-                    function (chart) {
-                        if (!chart.renderer.forExport) {
-                            setInterval(function () {
-                                var point = chart.series[0].points[0];
-                                $.getJSON('/temp/1', function (data) {
-                                    point.update(data[0].data[0]);
-                                });
-                            }, 300000);
-                        }
                     }
+                    //,
+                    //function (chart) {
+                    //    if (!chart.renderer.forExport) {
+                    //        setInterval(function () {
+                    //            var point = chart.series[0].points[0];
+                    //            $.getJSON('/temp/1', function (data) {
+                    //                point.update(data[0].data[0]);
+                    //            });
+                    //        }, 300000);
+                    //    }
+                    //}
                 )
             })
     });

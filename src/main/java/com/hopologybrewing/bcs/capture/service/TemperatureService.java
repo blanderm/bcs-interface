@@ -38,18 +38,8 @@ public class TemperatureService extends BcsService {
             try {
                 while ((line = reader.readLine()) != null) {
                     probeRecording = mapper.readValue(line, TemperatureProbeRecording.class);
-                    recordings = probesMap.get(probeRecording.getProbe().getName());
-
-                    if (recordings == null) {
-                        recordings = new ArrayList<>();
-                    }
-
-                    data = new ArrayList<>();
-                    data.add(probeRecording.getTimestamp());
-                    data.add(new Double(probeRecording.getProbe().getTemp())/10);
-
-                    recordings.add(data);
-                    probesMap.put(probeRecording.getProbe().getName(), recordings);
+                    addDataPoint(probesMap, probeRecording.getProbe().getName(), probeRecording.getTimestamp(), new Double(probeRecording.getProbe().getTemp())/10);
+                    addDataPoint(probesMap, probeRecording.getProbe().getName() + "SP", probeRecording.getTimestamp(), new Double(probeRecording.getProbe().getSetpoint())/10);
                 }
             } catch (IOException e) {
                 log.error("Error reading file " + fileLocation + " - ", e);
@@ -69,6 +59,21 @@ public class TemperatureService extends BcsService {
 
 
         return probesMap;
+    }
+
+    private void addDataPoint(Map<String, List<List>> probesMap, String name, Date timestamp, double value) {
+        List<List> recordings = recordings = probesMap.get(name);
+
+        if (recordings == null) {
+            recordings = new ArrayList<>();
+        }
+
+        List data = new ArrayList<>();
+        data.add(timestamp);
+        data.add(value);
+
+        recordings.add(data);
+        probesMap.put(name, recordings);
     }
 
     public List<TemperatureProbe> getEnabledProbes() {
