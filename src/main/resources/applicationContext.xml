@@ -32,7 +32,7 @@
     <bean id="outputMessageRecorder" class="com.hopologybrewing.bcs.capture.batch.OutputMessageRecorder"/>
 
     <int:inbound-channel-adapter id="outputs" ref="outputMessageRecorder" method="getNextOutputReading" auto-startup="true" >
-        <int:poller fixed-rate="1000" max-messages-per-poll="1"/>
+        <int:poller fixed-rate="2500" max-messages-per-poll="1"/>
     </int:inbound-channel-adapter>
 
     <int:service-activator input-channel="outputs" ref="outputMessageRecorder"
