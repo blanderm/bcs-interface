@@ -40,7 +40,7 @@ public class TemperatureService extends BcsService {
                     probeRecording = mapper.readValue(line, TemperatureProbeRecording.class);
                     addDataPoint(probesMap, probeRecording.getProbe().getName(), probeRecording.getTimestamp(), new Double(probeRecording.getProbe().getTemp())/10);
 
-                    // to avoid messing with the graph just skip points where the SP isn't set
+                    // skip points where the SP isn't set
                     if (probeRecording.getProbe().getSetpoint() > 0) {
                         addDataPoint(probesMap, probeRecording.getProbe().getName() + "-SP", probeRecording.getTimestamp(), new Double(probeRecording.getProbe().getSetpoint()) / 10);
                     }
