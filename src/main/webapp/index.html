@@ -67,7 +67,7 @@
                                     <h1>{{ activeProcess.name }}</h1>
                                     <div><b>Active State:</b> {{ activeState.name }}<span ng-show="activeProcess.paused" class="glyphicon glyphicon-pause" style="color: red"></span></div>
                                     <div><b>Active Timer ({{activeState.timers[0].count_up ? 'up' : 'dn'}}):</b> {{ convertTimerValue(activeState.timers[0].value) }}</div>
-                                    <div ng-show="!nextState.startsWith('State ')"><b>Next State:</b> {{ nextState ? nextState : "(no exit condition set - foo)"}}</div>
+                                    <div ng-show="!nextState.startsWith('State ')"><b>Next State:</b> {{ nextState ? nextState : "(no exit condition set)"}}</div>
                                 </div>
                             </div>
                         </div>
