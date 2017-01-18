@@ -3,14 +3,11 @@ package com.hopologybrewing.bcs.capture.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hopologybrewing.bcs.capture.model.Output;
 import com.hopologybrewing.bcs.capture.model.OutputRecording;
-import com.hopologybrewing.bcs.capture.model.TemperatureProbeRecording;
+import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,38 +41,40 @@ public class OutputService extends BcsService {
     public Map<String, List<List>> getHistoricalOutputData() {
         String line;
         List data = null;
-        BufferedReader reader = null;
         List<List> recordings = null;
+        ReversedLinesFileReader reader = null;
         ObjectMapper mapper = new ObjectMapper();
         Map<String, List<List>> outputsMap = new HashMap<>();
 
         try {
             OutputRecording outputRecording = null;
-            reader = new BufferedReader(new FileReader(fileLocation));
+            int numLines = 1000;
+            int counter = 0;
 
-            try {
-                while ((line = reader.readLine()) != null) {
-                    outputRecording = mapper.readValue(line, OutputRecording.class);
-                    if (outputRecording != null && outputRecording.getOutput() != null) {
-                        recordings = outputsMap.get(outputRecording.getOutput().getName());
+            reader = new ReversedLinesFileReader(new File(fileLocation));
 
-                        if (recordings == null) {
-                            recordings = new ArrayList<>();
-                        }
+            while ((line = reader.readLine()) != null && counter < numLines) {
+                outputRecording = mapper.readValue(line, OutputRecording.class);
+                if (outputRecording != null && outputRecording.getOutput() != null) {
+                    recordings = outputsMap.get(outputRecording.getOutput().getName());
 
-                        data = new ArrayList<>();
-                        data.add(outputRecording.getTimestamp());
-                        data.add((outputRecording.getOutput().isOn() ? 1 : 0));
-
-                        recordings.add(data);
-                        outputsMap.put(outputRecording.getOutput().getName(), recordings);
+                    if (recordings == null) {
+                        recordings = new ArrayList<>();
                     }
+
+                    data = new ArrayList<>();
+                    data.add(outputRecording.getTimestamp());
+                    data.add((outputRecording.getOutput().isOn() ? 1 : 0));
+
+                    recordings.add(data);
+                    outputsMap.put(outputRecording.getOutput().getName(), recordings);
                 }
-            } catch (IOException e) {
-                log.error("Error reading file " + fileLocation + " - ", e);
+
+                counter++;
             }
-        } catch (FileNotFoundException e) {
-            log.error("File not found for " + fileLocation + " - ", e);
+        } catch (IOException e) {
+            log.error("Error reading file " + fileLocation + " - ", e);
+
         } finally {
             if (reader != null) {
                 try {
@@ -85,7 +84,6 @@ public class OutputService extends BcsService {
                 }
             }
         }
-
 
 
         return outputsMap;
