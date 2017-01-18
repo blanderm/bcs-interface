@@ -48,7 +48,7 @@ public class OutputService extends BcsService {
 
         try {
             OutputRecording outputRecording = null;
-            int numLines = 1000;
+            int numLines = 60*60*24*14;
             int counter = 0;
 
             reader = new ReversedLinesFileReader(new File(fileLocation));
