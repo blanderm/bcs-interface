@@ -39,12 +39,57 @@ public class TemperatureService extends BcsService {
                 while ((line = reader.readLine()) != null) {
                     probeRecording = mapper.readValue(line, TemperatureProbeRecording.class);
 
-                    if (probeRecording != null && probeRecording.getProbe() != null) {
-                        addDataPoint(probesMap, probeRecording.getProbe().getName(), probeRecording.getTimestamp(), new Double(probeRecording.getProbe().getTemp()) / 10);
+                    if (probeRecording != null && probeRecording.getData() != null) {
+                        addDataPoint(probesMap, probeRecording.getData().getName(), probeRecording.getTimestamp(), new Double(probeRecording.getData().getTemp()) / 10);
 
                         // skip points where the SP isn't set
-                        if (probeRecording.getProbe().getSetpoint() > 0) {
-                            addDataPoint(probesMap, probeRecording.getProbe().getName() + "-SP", probeRecording.getTimestamp(), new Double(probeRecording.getProbe().getSetpoint()) / 10);
+                        if (probeRecording.getData().getSetpoint() > 0) {
+                            addDataPoint(probesMap, probeRecording.getData().getName() + "-SP", probeRecording.getTimestamp(), new Double(probeRecording.getData().getSetpoint()) / 10);
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                log.error("Error reading file " + fileLocation + " - ", e);
+            }
+        } catch (FileNotFoundException e) {
+            log.error("File not found for " + fileLocation + " - ", e);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    log.error("Failed to close reader for " + fileLocation + " - ", e);
+                }
+            }
+        }
+
+
+
+        return probesMap;
+    }
+
+    public Map<String, List<List>> getHistoricalProbeDataFromFile() {
+        String line;
+        List data = null;
+        BufferedReader reader = null;
+        List<List> recordings = null;
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, List<List>> probesMap = new HashMap<>();
+
+        try {
+            TemperatureProbeRecording probeRecording = null;
+            reader = new BufferedReader(new FileReader(fileLocation));
+
+            try {
+                while ((line = reader.readLine()) != null) {
+                    probeRecording = mapper.readValue(line, TemperatureProbeRecording.class);
+
+                    if (probeRecording != null && probeRecording.getData() != null) {
+                        addDataPoint(probesMap, probeRecording.getData().getName(), probeRecording.getTimestamp(), new Double(probeRecording.getData().getTemp()) / 10);
+
+                        // skip points where the SP isn't set
+                        if (probeRecording.getData().getSetpoint() > 0) {
+                            addDataPoint(probesMap, probeRecording.getData().getName() + "-SP", probeRecording.getTimestamp(), new Double(probeRecording.getData().getSetpoint()) / 10);
                         }
                     }
                 }

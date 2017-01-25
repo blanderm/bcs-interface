@@ -29,9 +29,11 @@ public class OutputService extends BcsService {
         List<Output> enabledOutputs = new ArrayList<Output>();
         List outputs = (List) super.getData(BcsService.Type.OUTPUTS);
 
-        for (int i = 0; i < outputs.size(); i++) {
-            if (outputs.get(i) != null) {
-                enabledOutputs.add(getOutput(String.valueOf(i)));
+        if (outputs != null) {
+            for (int i = 0; i < outputs.size(); i++) {
+                if (outputs.get(i) != null) {
+                    enabledOutputs.add(getOutput(String.valueOf(i)));
+                }
             }
         }
 
@@ -55,8 +57,8 @@ public class OutputService extends BcsService {
 
             while ((line = reader.readLine()) != null && counter < numLines) {
                 outputRecording = mapper.readValue(line, OutputRecording.class);
-                if (outputRecording != null && outputRecording.getOutput() != null) {
-                    recordings = outputsMap.get(outputRecording.getOutput().getName());
+                if (outputRecording != null && outputRecording.getData() != null) {
+                    recordings = outputsMap.get(outputRecording.getData().getName());
 
                     if (recordings == null) {
                         recordings = new ArrayList<>();
@@ -64,10 +66,10 @@ public class OutputService extends BcsService {
 
                     data = new ArrayList<>();
                     data.add(outputRecording.getTimestamp());
-                    data.add((outputRecording.getOutput().isOn() ? 1 : 0));
+                    data.add((outputRecording.getData().isOn() ? 1 : 0));
 
                     recordings.add(data);
-                    outputsMap.put(outputRecording.getOutput().getName(), recordings);
+                    outputsMap.put(outputRecording.getData().getName(), recordings);
                 }
 
                 counter++;

@@ -5,31 +5,33 @@ import java.util.Date;
 /**
  * Created by ddcbryanl on 12/13/16.
  */
-public class TemperatureProbeRecording {
-    private TemperatureProbe probe;
-    private Date timestamp;
+public class TemperatureProbeRecording extends Recording {
+    private TemperatureProbe data;
 
     public TemperatureProbeRecording() {
     }
 
     public TemperatureProbeRecording(TemperatureProbe probe, Date timestamp) {
-        this.probe = probe;
+        this.data = probe;
         this.timestamp = timestamp;
     }
 
-    public TemperatureProbe getProbe() {
-        return probe;
+    @Override
+    public TemperatureProbe getData() {
+        return data;
     }
 
-    public void setProbe(TemperatureProbe probe) {
-        this.probe = probe;
+    public void setData(TemperatureProbe data) {
+        this.data = data;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
-    }
+    @Override
+    protected String getName() {
+        String name = null;
+        if (data != null) {
+            name = data.getName();
+        }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+        return name;
     }
 }
