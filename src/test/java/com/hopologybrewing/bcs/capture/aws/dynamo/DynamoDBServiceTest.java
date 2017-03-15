@@ -1,15 +1,13 @@
 package com.hopologybrewing.bcs.capture.aws.dynamo;
 
+import com.hopologybrewing.bcs.capture.model.OutputRecording;
 import com.hopologybrewing.bcs.capture.model.Recording;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -30,13 +28,13 @@ public class DynamoDBServiceTest {
     @Test
     public void queryRecordingForTimestampRange() throws Exception {
         Date date = new Date();
-        date.setTime(1485318714620L);
+        date.setTime(1485487408635L - 10L);
         long upper = date.getTime();
-        long lower = upper - 5000;
-        List<Recording> recordings = dynamoDbService.queryRecordingForTimestampRange(DynamoConstants.OUTPUT_READINGS_TABLE, "Pump - Left", lower, upper);
+        long lower = upper - 8000;
+        List<Recording> recordings = dynamoDbService.queryRecording(OutputRecording.class, "Pump - Left", lower, upper, 0, false);
         checkRange(recordings, lower, upper);
 
-        recordings = dynamoDbService.queryRecordingForTimestampRange(DynamoConstants.OUTPUT_READINGS_TABLE, "Pump - Right", lower, upper);
+        recordings = dynamoDbService.queryRecording(OutputRecording.class, "Pump - Right", lower, upper, 0, false);
         checkRange(recordings, lower, upper);
     }
 

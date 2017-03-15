@@ -7,6 +7,8 @@ import com.hopologybrewing.bcs.capture.aws.dynamo.DynamoConstants;
 import com.hopologybrewing.bcs.capture.aws.dynamo.DynamoDBService;
 import com.hopologybrewing.bcs.capture.model.TemperatureProbe;
 import com.hopologybrewing.bcs.capture.model.TemperatureProbeRecording;
+import com.hopologybrewing.bcs.capture.service.DbService;
+import com.hopologybrewing.bcs.capture.service.ServiceConstants;
 import com.hopologybrewing.bcs.capture.service.TemperatureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +24,7 @@ public class TemperatureProbeMessageRecorder {
     private static final Logger log = LoggerFactory.getLogger(TemperatureProbeMessageRecorder.class);
     private static final Logger historyLogger = LoggerFactory.getLogger("bcs-temps-history");
     private TemperatureService tempService;
-    private DynamoDBService dynamoDbService;
+    private DbService dbService;
 
     public List<TemperatureProbeRecording> getNextTemperatureReading() {
         Date date = new Date();
@@ -40,7 +42,7 @@ public class TemperatureProbeMessageRecorder {
     }
 
     public void recordMessage(List<TemperatureProbeRecording> message) {
-        if (message != null) {
+        if (message != null && message.size() > 0) {
             ObjectMapper mapper = new ObjectMapper();
             
             for (TemperatureProbeRecording recording : message) {
@@ -51,7 +53,7 @@ public class TemperatureProbeMessageRecorder {
                 }
 
                 // put message in DynamoDB
-                dynamoDbService.writeRecording(DynamoConstants.TEMPERATURE_READINGS_TABLE, recording);
+                dbService.writeRecording(recording);
             }
         }
     }
@@ -61,8 +63,7 @@ public class TemperatureProbeMessageRecorder {
         this.tempService = tempService;
     }
 
-    @Autowired
-    public void setDynamoDbService(DynamoDBService dynamoDbService) {
-        this.dynamoDbService = dynamoDbService;
+    public void setDbService(DbService dbService) {
+        this.dbService = dbService;
     }
 }

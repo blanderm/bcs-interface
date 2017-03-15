@@ -13,9 +13,13 @@ public class DynamoConstants {
     public static final String TEMPERATURE_READINGS_TABLE = "temperature_readings";
     public static final String OUTPUT_READINGS_TABLE = "output_readings";
     public static final Map<String, Class> tableRecordingMap = new HashMap<>();
+    public static final Map<Class, String> recordingTableMap = new HashMap<>();
 
     static {
         tableRecordingMap.put(TEMPERATURE_READINGS_TABLE, TemperatureProbeRecording.class);
         tableRecordingMap.put(OUTPUT_READINGS_TABLE, OutputRecording.class);
+
+        recordingTableMap.put(TemperatureProbeRecording.class, TEMPERATURE_READINGS_TABLE);
+        recordingTableMap.put(OutputRecording.class, OUTPUT_READINGS_TABLE);
     }
 }

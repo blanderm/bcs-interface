@@ -3,9 +3,9 @@ package com.hopologybrewing.bcs.capture.batch;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hopologybrewing.bcs.capture.aws.dynamo.DynamoConstants;
-import com.hopologybrewing.bcs.capture.aws.dynamo.DynamoDBService;
-import com.hopologybrewing.bcs.capture.model.*;
+import com.hopologybrewing.bcs.capture.model.Output;
+import com.hopologybrewing.bcs.capture.model.OutputRecording;
+import com.hopologybrewing.bcs.capture.service.DbService;
 import com.hopologybrewing.bcs.capture.service.OutputService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class OutputMessageRecorder {
     private static final Logger log = LoggerFactory.getLogger(OutputMessageRecorder.class);
     private static final Logger historyLogger = LoggerFactory.getLogger("bcs-outputs-history");
     private OutputService outputService;
-    private DynamoDBService dynamoDbService;
+    private DbService dbService;
 
     public List<OutputRecording> getNextOutputReading() {
         Date date = new Date();
@@ -38,7 +38,7 @@ public class OutputMessageRecorder {
     }
 
     public void recordMessage(List<OutputRecording> message) {
-        if (message != null) {
+        if (message != null && message.size() > 0) {
             ObjectMapper mapper = new ObjectMapper();
             for (OutputRecording recording : message) {
                 try {
@@ -48,7 +48,7 @@ public class OutputMessageRecorder {
                 }
 
                 // put message in DynamoDB
-                dynamoDbService.writeRecording(DynamoConstants.OUTPUT_READINGS_TABLE, recording);
+                dbService.writeRecording(recording);
             }
         }
     }
@@ -58,8 +58,7 @@ public class OutputMessageRecorder {
         this.outputService = outputService;
     }
 
-    @Autowired
-    public void setDynamoDbService(DynamoDBService dynamoDbService) {
-        this.dynamoDbService = dynamoDbService;
+    public void setDbService(DbService dbService) {
+        this.dbService = dbService;
     }
 }

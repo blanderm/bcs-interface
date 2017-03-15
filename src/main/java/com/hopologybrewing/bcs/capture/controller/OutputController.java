@@ -35,7 +35,7 @@ public class OutputController {
     @RequestMapping("/output/history")
     public HttpEntity<String> getHistoricalTemps() {
         StringBuffer buffer = new StringBuffer();
-        Map<String, List<List>> probesMap = outputService.getHistoricalOutputData();
+        Map<String, List<List>> probesMap = outputService.getHistoricalOutputData(0, 0, 604800);
         ObjectMapper mapper = new ObjectMapper();
 
         try {
