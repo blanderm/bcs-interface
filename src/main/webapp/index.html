@@ -74,6 +74,10 @@
                                         <div ng-repeat="output in outputs">
                                             <button id="{{'output' + $index}}" data-ng-class="[output.on ? 'btn btn-on' : 'btn']" ng-bind="output.name" style="float: left"/>
                                         </div>
+                                        <div ng-controller="logController">
+                                            <button id="clearTempLogs" ng-click="clearLog('temp')" class="btn" style="float: left">Clear Temps</button>
+                                            <button id="clearOutputLogs" ng-click="clearLog('output')" class="btn" style="float: left">Clear Outputs</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

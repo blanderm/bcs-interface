@@ -1,4 +1,14 @@
 angular.module('hopologybrewing-bcs', [])
+    .controller('logController', function ($scope, $http) {
+        $scope.clearLog = function(type) {
+            if (confirm("Are you sure you want to delete all data?") == true) {
+                $http.get('/log/clear?type='.concat(type));
+            } else {
+                // do nothing
+            }
+        }
+    })
+
     .controller('outputController', function ($scope, $http) {
         $http.get('/output').
             then(function (response) {

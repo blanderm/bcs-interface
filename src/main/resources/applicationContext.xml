@@ -17,6 +17,10 @@
     <bean id="outputService" class="com.hopologybrewing.bcs.capture.service.OutputService">
         <property name="fileLocation" value="${outputs.file}"/>
     </bean>
+    <bean id="logService" class="com.hopologybrewing.bcs.capture.service.LogService">
+        <property name="outputFile" value="${outputs.file}"/>
+        <property name="tempFile" value="${temps.file}"/>
+    </bean>
     <bean id="processService" class="com.hopologybrewing.bcs.capture.service.ProcessService"/>
     <bean id="stateService" class="com.hopologybrewing.bcs.capture.service.StateService"/>
 
