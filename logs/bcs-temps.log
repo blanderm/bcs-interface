@@ -1,4 +1,0 @@
-{"probe":{"name":"Conical - Left","temp":679.0,"setpoint":0.0,"resistance":12521.0,"enabled":true,"coefficients":[0.0011371549,2.325949E-4,9.5400029999E-8]},"timestamp":1491140204650}
-{"probe":{"name":"Conical - Right","temp":692.0,"setpoint":0.0,"resistance":12106.0,"enabled":true,"coefficients":[0.0011371549,2.325949E-4,9.5400029999E-8]},"timestamp":1491140204650}
-{"probe":{"name":"Conical - Left","temp":672.0,"setpoint":0.0,"resistance":12731.0,"enabled":true,"coefficients":[0.0011371549,2.325949E-4,9.5400029999E-8]},"timestamp":1491140504653}
-{"probe":{"name":"Conical - Right","temp":685.0,"setpoint":0.0,"resistance":12325.0,"enabled":true,"coefficients":[0.0011371549,2.325949E-4,9.5400029999E-8]},"timestamp":1491140504653}
