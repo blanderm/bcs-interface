@@ -223,7 +223,8 @@ angular.module('hopologybrewing-bcs', [])
 
                         tooltip: {
                             shared: true,
-                            crosshairs: true
+                            crosshairs: true,
+                            dateTimeLabelFormats: '%A, %b %e, %H:%M:%S.%L'
                         },
 
                         xAxis: {
@@ -232,7 +233,7 @@ angular.module('hopologybrewing-bcs', [])
                             //                        tickWidth: 0,
                             //                        gridLineWidth: 1,
                             labels: {
-                                //format: '{value:%mm/%dd/%yyyy HH:mm:ss}',
+                                // format: '{value:%m/%d/%y %H:%M}',
                                 align: 'right',
                                 rotation: -30
                             }
@@ -313,7 +314,8 @@ angular.module('hopologybrewing-bcs', [])
 
                         tooltip: {
                             shared: true,
-                            crosshairs: true
+                            crosshairs: true,
+                            dateTimeLabelFormats: '%A, %b %e, %H:%M:%S.%L'
                         },
 
                         xAxis: {
@@ -322,7 +324,7 @@ angular.module('hopologybrewing-bcs', [])
                             //                        tickWidth: 0,
                             //                        gridLineWidth: 1,
                             labels: {
-                                //format: '{value:%mm/%dd/%yyyy HH:mm:ss}',
+                                // format: '{value:%m/%d/%y %H:%M}',
                                 align: 'right',
                                 rotation: -30
                             }
