@@ -78,6 +78,9 @@
                                             <button id="clearTempLogs" ng-click="clearLog('temp')" class="btn" style="float: left">Clear Temps</button>
                                             <button id="clearOutputLogs" ng-click="clearLog('output')" class="btn" style="float: left">Clear Outputs</button>
                                         </div>
+                                        <div ng-controller="alertController">
+                                            <button id="toggleAlerting" ng-click="toggleAlerting()" class="btn" style="float: left">Toggle Alerting</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

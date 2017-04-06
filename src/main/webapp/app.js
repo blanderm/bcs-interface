@@ -9,6 +9,16 @@ angular.module('hopologybrewing-bcs', [])
         }
     })
 
+    .controller('alertController', function ($scope, $http) {
+        $scope.toggleAlerting = function(type) {
+            if (confirm("Are you sure you want toggle alerting?") == true) {
+                $http.get('/alert/toggle');
+            } else {
+                // do nothing
+            }
+        }
+    })
+
     .controller('outputController', function ($scope, $http) {
         $http.get('/output').
             then(function (response) {
