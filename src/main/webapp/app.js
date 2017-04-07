@@ -11,7 +11,7 @@ angular.module('hopologybrewing-bcs', [])
 
     .controller('alertController', function ($scope, $http) {
         $scope.toggleAlerting = function(type) {
-            if (confirm("Are you sure you want toggle alerting?") == true) {
+            if (confirm("Are you sure you want to toggle alerting?") == true) {
                 $http.get('/alert/toggle');
             } else {
                 // do nothing
