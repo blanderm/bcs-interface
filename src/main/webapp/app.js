@@ -42,6 +42,8 @@ angular.module('hopologybrewing-bcs', [])
                 // find active process and get current state
                 if (response.data != null) {
                     var enabledProcesses = [];
+                    $scope.activeProcesses = [];
+
                     for (var i = 0; i < response.data.length; i++) {
                         if (response.data[i]) {
                             enabledProcesses.push(i);
@@ -49,58 +51,51 @@ angular.module('hopologybrewing-bcs', [])
                     }
 
                     for (var j = 0; j < enabledProcesses.length; j++) {
-                        $http.get('/process/'.concat(enabledProcesses[j])).
-                            then(function (processResponse) {
-                                if (processResponse.data != null) {
-
-                                    $scope.activeProcess = processResponse.data;
-                                }
-                            });
-
                         $http.get('/process/'.concat(enabledProcesses[j]).concat('/current_state')).
-                            then(function (stateResponse) {
-                                $scope.activeState = stateResponse.data;
-                                var exitConditions = stateResponse.data.exitConditions;
+                        then(function (processStateResponse) {
+                            console.log(processStateResponse);
+                            var exitConditions = processStateResponse.data.statesObj[processStateResponse.data.current_state.state].exitConditions;
 
-                                if (exitConditions != null) {
-                                    for (var k = 0; k < exitConditions.length; k++) {
-                                        $scope.nextState = $scope.activeProcess.states[exitConditions[k].next_state];
-                                    }
+                            if (exitConditions != null) {
+                                for (var k = 0; k < exitConditions.length; k++) {
+                                    processStateResponse.data.nextState = processStateResponse.data.states[exitConditions[k].next_state];
+                                    console.log(processStateResponse);
                                 }
+                            }
 
-                                $scope.convertTimerValue = function (value) {
-                                    // days
-                                    var calculatedTimer = value / 10 / 60 / 60 / 24;
-                                    var strTimer = "";
-                                    var floor;
-
-                                    floor = Math.floor(calculatedTimer);
-                                    if (floor >= 1) {
-                                        strTimer = floor + (floor > 1 ? " days " : " day ");
-                                    }
-
-                                    // hours
-                                    calculatedTimer = calculatedTimer % 1 * 24;
-                                    floor = Math.floor(calculatedTimer);
-                                    strTimer = strTimer + (floor < 10 ? '0' + floor : floor)  + ":";
-
-                                    // mins
-                                    calculatedTimer = calculatedTimer % 1 * 60;
-                                    floor = Math.floor(calculatedTimer);
-                                    strTimer = strTimer + (floor < 10 ? '0' + floor : floor)  + ":";
-
-                                    // seconds
-                                    calculatedTimer = calculatedTimer % 1 * 60;
-                                    floor = Math.floor(calculatedTimer);
-
-                                    return strTimer + (floor < 10 ? '0' + floor : floor) ;
-                                };
-
-                                //$scope.activeStateTimers = stateResponse.data.timers;
-                            });
+                            $scope.activeProcesses.push(processStateResponse.data);
+                        });
                     }
                 }
             });
+
+        $scope.convertTimerValue = function (value) {
+            // days
+            var calculatedTimer = value / 10 / 60 / 60 / 24;
+            var strTimer = "";
+            var floor;
+
+            floor = Math.floor(calculatedTimer);
+            if (floor >= 1) {
+                strTimer = floor + (floor > 1 ? " days " : " day ");
+            }
+
+            // hours
+            calculatedTimer = calculatedTimer % 1 * 24;
+            floor = Math.floor(calculatedTimer);
+            strTimer = strTimer + (floor < 10 ? '0' + floor : floor)  + ":";
+
+            // mins
+            calculatedTimer = calculatedTimer % 1 * 60;
+            floor = Math.floor(calculatedTimer);
+            strTimer = strTimer + (floor < 10 ? '0' + floor : floor)  + ":";
+
+            // seconds
+            calculatedTimer = calculatedTimer % 1 * 60;
+            floor = Math.floor(calculatedTimer);
+
+            return strTimer + (floor < 10 ? '0' + floor : floor) ;
+        };
     })
 
     .controller('gaugeController', function ($scope, $http) {

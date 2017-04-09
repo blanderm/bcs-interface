@@ -22,8 +22,8 @@ public class StateController {
     }
 
     @RequestMapping("/process/{pid}/current_state")
-    public HttpEntity<State> getCurrentState(@PathVariable String pid) {
-        return new HttpEntity<State>(stateService.getCurrentState(pid));
+    public HttpEntity<Process> getCurrentState(@PathVariable String pid) {
+        return new HttpEntity<Process>(stateService.getCurrentProcessState(pid));
     }
 
     @Autowired

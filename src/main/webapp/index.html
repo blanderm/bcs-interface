@@ -32,55 +32,59 @@
                                     <!--<div id="{{'temp-gauge-d' + $index}}" class="gauge" >{{ getGauge($index, 'temp-gauge-d') }}</div>-->
                                 <!--</div>-->
                             <!--</div>-->
-                            <div id="temp-gauge0" class="gauge"></div>
-                            <div id="temp-gauge1" class="gauge"></div>
-                             <!--Figure out how to call for active state to display, including the current timer-->
+                            <div class="stack-left">
+                                <div class="stack-left">
+                                    <div id="temp-gauge0" class="gauge"></div>
+                                    <div id="temp-gauge1" class="gauge"></div>
+                                </div>
 
-                            <div class="stack-right">
-                                <div ng-controller="processController">
-                                    <div ng-repeat="process in processes">
-                                        <button type="button" data-toggle="modal" data-target="{{'#states' + $index}}" name="{{process.name}}" value="{{$index}}" ng-show="!process.name.startsWith('Process ')" data-ng-class="[process.running ? 'btn btn-on' : 'btn']">{{process.name}}</button>
+                                <div ng-controller="outputController" class="clear center pad">
+                                        <span ng-repeat="output in outputs" class="lrpad" style="display: inline-block;">
+                                            <!--<div ng-show="getGauge($index, 'temp-gauge' + $index)" id="{{ 'temp-gauge' + $index }}" class="gauge"></div>-->
+                                            <button id="{{'output' + $index}}" data-ng-class="[output.on ? 'btn btn-on' : 'btn']" ng-bind="output.name"/>
+                                        </span>
+                                </div>
+                            </div>
 
-                                        <div id="{{'states' + $index}}" class="modal fade" role="dialog">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        <h4 class="modal-title">States</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <ul>
-                                                            <li ng-show="process.states != null && !state.startsWith('State ')" ng-repeat="state in process.states" data-ng-class="[process.current_state.state == $index ? 'state-list-on' : '']">
-                                                                {{ state }}
-                                                            </li>
-                                                        </ul>
+                            <div  class="stack-right pad">
+                                <div >
+                                    <div ng-controller="currentStateController">
+                                        <div id="{{'currentState' + $index}}" class="stack-left pad" ng-repeat="process in activeProcesses">
+                                            <h1><a data-toggle="modal" data-target="{{'#processStates' + $index}}">{{ process.name }}</a></h1>
+                                            <div><b>Active State:</b> {{ process.states[process.current_state.state] }}<span ng-show="process.paused" class="glyphicon glyphicon-pause" style="color: red"></span></div>
+                                            <div><b>Active Timer ({{ process.statesObj[process.current_state.state].timers[0].count_up ? 'up' : 'dn'}}):</b> {{ convertTimerValue(process.statesObj[process.current_state.state].timers[0].value) }}</div>
+                                            <div ng-show="!process.nextState.startsWith('State ')"><b>Next State:</b> {{ process.nextState ? process.nextState : "(no exit condition set)"}}</div>
+
+                                            <div id="{{'processStates' + $index}}" class="modal fade" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <h4 class="modal-title">States</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <ul>
+                                                                <li ng-show="process.states != null && !state.startsWith('State ')" ng-repeat="state in process.states" data-ng-class="[process.current_state.state == $index ? 'state-list-on' : '']">
+                                                                    {{ state }}
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div  class="stack-right">
-                                <div >
-                                    <div ng-controller="currentStateController" id="currentState" class="stack-left">
-                                        <h1>{{ activeProcess.name }}</h1>
-                                        <div><b>Active State:</b> {{ activeState.name }}<span ng-show="activeProcess.paused" class="glyphicon glyphicon-pause" style="color: red"></span></div>
-                                        <div><b>Active Timer ({{activeState.timers[0].count_up ? 'up' : 'dn'}}):</b> {{ convertTimerValue(activeState.timers[0].value) }}</div>
-                                        <div ng-show="!nextState.startsWith('State ')"><b>Next State:</b> {{ nextState ? nextState : "(no exit condition set)"}}</div>
                                     </div>
-                                    <div ng-controller="outputController" class="stack-right">
-                                        <div ng-repeat="output in outputs">
-                                            <button id="{{'output' + $index}}" data-ng-class="[output.on ? 'btn btn-on' : 'btn']" ng-bind="output.name" style="float: left"/>
-                                        </div>
-                                        <div ng-controller="logController">
-                                            <button id="clearTempLogs" ng-click="clearLog('temp')" class="btn" style="float: left">Clear Temps</button>
-                                            <button id="clearOutputLogs" ng-click="clearLog('output')" class="btn" style="float: left">Clear Outputs</button>
-                                        </div>
-                                        <div ng-controller="alertController">
-                                            <button id="toggleAlerting" ng-click="toggleAlerting()" class="btn" style="float: left">Toggle Alerting</button>
-                                        </div>
+                                <div class="clear pad center">
+                                    <div class="hr">.</div>
+                                    <div class="clear" style="display: inline-block;">
+                                        <span ng-controller="alertController">
+                                            <button id="toggleAlerting" ng-click="toggleAlerting()" class="btn btn-gray" style="float: left"><span>Toggle Alerting</span></button>
+                                        </span>
+                                        <span ng-controller="logController">
+                                            <button id="clearTempLogs" ng-click="clearLog('temp')" class="btn btn-gray" style="float: left"><span>Clear Temps</span></button>
+                                            <button id="clearOutputLogs" ng-click="clearLog('output')" class="btn btn-gray" style="float: left"><span>Clear Outputs</span></button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
