@@ -33,9 +33,9 @@
                                 <!--</div>-->
                             <!--</div>-->
                             <div class="stack-left">
-                                <div class="stack-left">
-                                    <div id="temp-gauge0" class="gauge"></div>
-                                    <div id="temp-gauge1" class="gauge"></div>
+                                <div class="center">
+                                    <div id="temp-gauge0" class="gauge" style="display: inline-block;"></div>
+                                    <div id="temp-gauge1" class="gauge" style="display: inline-block;"></div>
                                 </div>
 
                                 <div ng-controller="outputController" class="clear center pad">
@@ -46,7 +46,7 @@
                                 </div>
                             </div>
 
-                            <div  class="stack-right pad">
+                            <div  class="stack-left pad">
                                 <div >
                                     <div ng-controller="currentStateController">
                                         <div id="{{'currentState' + $index}}" class="stack-left pad" ng-repeat="process in activeProcesses">
