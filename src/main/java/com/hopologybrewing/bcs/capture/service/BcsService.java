@@ -88,6 +88,10 @@ public abstract class BcsService {
         alertEnabled.set(!currentState);
     }
 
+    public boolean getAlertStatus() {
+        return alertEnabled.get();
+    }
+
     public void sendTestMessage() {
         if (alertEnabled.get()) {
             sendMessage("Just a TEST!!");

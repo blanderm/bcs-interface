@@ -13,6 +13,11 @@ public class AlertController {
     private static final Logger log = LoggerFactory.getLogger(AlertController.class);
     private TemperatureService tempService;
 
+    @RequestMapping("/alert/status")
+    public HttpEntity<Boolean> getStatus() {
+        return new HttpEntity<Boolean>(tempService.getAlertStatus());
+    }
+
     @RequestMapping("/alert/toggle")
     public HttpEntity<String> updateAlert() {
         log.info("Toggling alert");

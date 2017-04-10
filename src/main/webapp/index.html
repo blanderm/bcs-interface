@@ -79,11 +79,15 @@
                                     <div class="hr">.</div>
                                     <div class="clear center">
                                         <span ng-controller="alertController" style="display: inline-block;">
-                                            <button id="toggleAlerting" ng-click="toggleAlerting()" class="btn btn-gray" style="float: left"><span>Toggle Alerting</span></button>
+                                            <button id="toggleAlerting" ng-click="toggleAlerting()" class="btn btn-gray" style="float: left"><span>{{alertEnabled ? 'Disable Alerting' : 'Enable Alerting'}}</span></button>
                                         </span>
-                                        <span ng-controller="logController" style="display: inline-block;">
-                                            <button id="clearTempLogs" ng-click="clearLog('temp')" class="btn btn-gray" style="float: left"><span>Clear Temps</span></button>
-                                            <button id="clearOutputLogs" ng-click="clearLog('output')" class="btn btn-gray" style="float: left"><span>Clear Outputs</span></button>
+                                        <span ng-controller="logController">
+                                            <span style="display: inline-block;">
+                                                <button id="clearTempLogs" ng-click="clearLog('temp')" class="btn btn-gray" style="float: left"><span>Clear Temps</span></button>
+                                            </span>
+                                            <span style="display: inline-block;">
+                                                <button id="clearOutputLogs" ng-click="clearLog('output')" class="btn btn-gray" style="float: left"><span>Clear Outputs</span></button>
+                                            </span>
                                         </span>
                                     </div>
                                 </div>

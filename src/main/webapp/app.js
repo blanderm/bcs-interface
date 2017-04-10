@@ -10,6 +10,11 @@ angular.module('hopologybrewing-bcs', [])
     })
 
     .controller('alertController', function ($scope, $http) {
+        $http.get('/alert/status').
+        then(function (response) {
+            $scope.alertEnabled = response.data;
+        });
+
         $scope.toggleAlerting = function(type) {
             if (confirm("Are you sure you want to toggle alerting?") == true) {
                 $http.get('/alert/toggle');
