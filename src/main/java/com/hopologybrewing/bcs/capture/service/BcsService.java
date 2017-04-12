@@ -104,7 +104,7 @@ public abstract class BcsService {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
-            helper.setFrom("Hopology Brewing <bryan@hopologybrewing.com>");
+            helper.setFrom("Hopology Brewing <monitor@hopologybrewing.com>");
             helper.setTo(new String[] {"8023382890@vtext.com", "8027353410@vtext.com", "info@hopologybrewing.com"});
             helper.setText("HopologyBrewing :: Unable to contact the BCS Controller and can't monitor temps and output!  Error: " + details);
 
